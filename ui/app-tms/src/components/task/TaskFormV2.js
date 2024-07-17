@@ -11,7 +11,6 @@ const TaskFormV2 = () => {
     const navigator = useNavigate();
     const [errors, setErrors] = useState({});
     const { id } = useParams();
-    console.log("TASK FORM");
 
     const [taskInputs, setTaskInputs] = useState({
         //id: null,
@@ -23,16 +22,16 @@ const TaskFormV2 = () => {
 
     const statusType = [
         {
-            value: 1,
-            label: 'PENDING',
+            value: 'PENDING',
+            label: 'Pending',
         },
         {
-            value: 2,
-            label: 'IN_PROGRESS',
+            value: 'IN_PROGRESS',
+            label: 'In Progress',
         },
         {
-            value: 3,
-            label: 'COMPLETED',
+            value: 'COMPLETED',
+            label: 'Completed',
         }
     ];
 
@@ -46,6 +45,7 @@ const TaskFormV2 = () => {
 
     useEffect(() => {
         if (id) {
+            debugger;
             getTask(id).then((response) => {
                 //console.log(response.data);
                 setTaskInputs(response.data);
@@ -71,6 +71,7 @@ const TaskFormV2 = () => {
 
     const handleTaskSubmit = async (e) => {
         e.preventDefault();
+        debugger;
         console.log(taskInputs);
 
         setErrors({});
@@ -80,13 +81,14 @@ const TaskFormV2 = () => {
             return;
         }
 
+        debugger;
         saveTask(taskInputs).then((response) => {
             console.log(response.data);
         }).catch(error => {
             console.error(error);
         });
 
-        //navigator("/view-task");
+        navigator("/view-task");
     };
 
     return (
@@ -167,7 +169,7 @@ const TaskFormV2 = () => {
                         </FormControl>
 
                         <FormControl fullWidth>
-                            <Button variant="contained" color="primary" type="submit">Add Task</Button>
+                            <Button variant="contained" color="primary" type="submit">{makePageTitle()}</Button>
                         </FormControl>
                     </Stack>
                 </form>

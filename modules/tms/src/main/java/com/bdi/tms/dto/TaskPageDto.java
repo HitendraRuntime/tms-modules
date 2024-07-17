@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TaskDto {
+public class TaskPageDto {
 
     private Long id;
 

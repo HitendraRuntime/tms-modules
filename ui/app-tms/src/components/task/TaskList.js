@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 const TaskList = () => {
 
   const navigator = useNavigate();
-  console.log("TASK LIST");
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [rowCount, setRowCount] = useState(0);
 
   const columns = [
     { field: '#', headerName: '#', width: 70 },
@@ -51,8 +53,17 @@ const TaskList = () => {
   }, []);
 
   function getAllTaskList() {
-    getAllTasks().then((response) => {
+    var pagination = {
+      params: {
+        page,
+        size: pageSize
+      }
+    };
+
+    getAllTasks(pagination).then((response) => {
       setTableData(response.data);
+      //setRowCount(response.data.totalElements);
+      setRowCount(50);
     }).catch(error => {
       console.error(error);
     });
@@ -73,6 +84,15 @@ const TaskList = () => {
     })
   };
 
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handlePageSizeChange = (newPageSize) => {
+    setPageSize(newPageSize);
+    setPage(0); // Reset to first page when page size changes
+  };
+
   return (
     <>
       <div style={{ height: 700, width: '100%' }}>
@@ -89,20 +109,29 @@ const TaskList = () => {
 
           <Grid item xs={10}>
             {tableData.length > 0 ? (
-              
+
               <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={tableData}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
+                <DataGrid
+                  rows={tableData}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: { page: 0, pageSize: 5 },
+                    },
+                  }}
+
+                  pagination
+                  paginationMode="server"
+                  rowCount={rowCount}
+                  page={page}
+                  pageSize={pageSize}
+                  pageSizeOptions={[5, 10]}
+                  onPageChange={(params) => handlePageChange(params.page)}
+                  onPageSizeChange={(params) => handlePageSizeChange(params.pageSize)}
+
+                  checkboxSelection
+                />
+              </div>
             ) : (
               <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                 <Typography variant="h6" color="textSecondary">

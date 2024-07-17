@@ -13,7 +13,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
-export const getAllTasks = () => axios.get(BASE_REST_API_URL)
+export const getAllTasks = (pagination) => axios.get(BASE_REST_API_URL, pagination)
 
 export const saveTask = (task) => axios.post(BASE_REST_API_URL, task)
 

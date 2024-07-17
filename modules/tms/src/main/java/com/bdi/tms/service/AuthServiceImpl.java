@@ -54,12 +54,12 @@ public class AuthServiceImpl implements AuthService {
     public String login(LoginDto loginDto) {
         String message = null;
         //try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginDto.getUsernameOrEmail(),
-                    loginDto.getPassword()
-            ));
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
-            message = "User Login Successfully...";
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameOrEmail(),
+                loginDto.getPassword()
+        ));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        message = "User Login Successfully...";
             /*
         } catch (Exception ex) {
             ex.printStackTrace();
